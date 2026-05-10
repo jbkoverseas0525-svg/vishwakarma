@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { max-width: 100vw; overflow-x: hidden; }
+img, video { max-width: 100%; height: auto; }
+
+/* ── Professional Theme (Navy / Orange — Vishwakarma TechnoEnergy palette) ── */
+:root {
+  /* Brand */
+  --c-primary:      #1a2456;   /* logo navy */
+  --c-primary-dk:   #0f1838;   /* deeper navy */
+  --c-primary-lt:   #2d3a78;   /* lighter navy */
+  --c-accent:       #f58220;   /* logo orange */
+  --c-accent-dk:    #d96a0a;
+
+  /* Surfaces */
+  --c-bg:           #ffffff;
+  --c-bg2:          #f8f9fc;
+  --c-bg3:          #eef0f7;
+  --c-bg-blue:      #fef5ec;   /* subtle warm tint */
+
+  /* Cards & borders */
+  --c-card:         #ffffff;
+  --c-border:       #e4e6ee;
+  --c-border2:      #c9cdd9;
+
+  /* Text */
+  --c-text:         #0f1430;
+  --c-text2:        #4a4f6a;
+  --c-text3:        #6a6f87;
+  --c-text4:        #9a9eb2;
+
+  /* UI */
+  --c-nav:          rgba(255,255,255,0.95);
+  --c-footer:       #0f1838;
+  --c-shadow:       rgba(15,20,48,0.08);
+  --c-shadow-lg:    rgba(15,20,48,0.14);
+
+  /* Gradients */
+  --g-primary:      linear-gradient(135deg, #1a2456 0%, #0f1838 100%);
+  --g-accent:       linear-gradient(135deg, #f58220 0%, #d96a0a 100%);
+  --g-hero:         linear-gradient(135deg, #ffffff 0%, #fef5ec 55%, #fde2c4 100%);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--c-bg);
+  color: var(--c-text);
+  overflow-x: hidden;
+  margin: 0;
+  min-width: 320px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.01em;
+  color: var(--c-text);
+}
+
+a { text-decoration: none; color: inherit; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--c-bg2); }
+::-webkit-scrollbar-thumb { background: var(--c-primary); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-primary-dk); }
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .container { padding: 0 1.25rem; }
+}
+@media (max-width: 768px) {
+  .container { padding: 0 1rem; }
+  .hero-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+  .hero-grid-right { order: -1; }
+  .product-scroll-wrapper { flex-direction: column !important; }
+  .product-scroll-left { width: 100% !important; height: 55vw !important; min-height: 280px; max-height: 400px; position: relative !important; top: unset !important; }
+  .product-scroll-right { width: 100% !important; }
+  .product-scroll-item { min-height: auto !important; padding: 2.75rem 1.25rem !important; opacity: 1 !important; }
+  .process-grid { grid-template-columns: 1fr !important; gap: 1.25rem !important; }
+  .process-connector { display: none !important; }
+  .section-pad { padding: 3.5rem 0 !important; }
+  .hero-section { min-height: auto !important; padding-top: 6rem !important; padding-bottom: 3rem !important; }
+  .why-grid { gap: 2.5rem !important; }
+  .desktop-nav { display: none !important; }
+  .mobile-controls { display: flex !important; }
+  .navbar-logo img { height: 38px !important; }
+}
+@media (max-width: 380px) {
+  .navbar-logo img { height: 32px !important; }
+  .container { padding: 0 0.75rem; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 0.9rem; }
+  .section-pad { padding: 2.75rem 0 !important; }
+  .product-scroll-item { padding: 2.25rem 0.9rem !important; }
+}
+
+/* ── Mobile inputs: prevent iOS auto-zoom + clip overflowing placeholder ── */
+@media (max-width: 640px) {
+  input, textarea, select {
+    font-size: 16px !important;
+    max-width: 100%;
+    text-overflow: ellipsis;
+  }
+  input::placeholder, textarea::placeholder {
+    font-size: 0.85rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* Stack two-column form rows into single column on mobile */
+  .form-row { grid-template-columns: 1fr !important; }
+}
+
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }

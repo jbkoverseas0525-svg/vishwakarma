@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /CATALOG.pdf
+
+Sitemap: https://vishwakarmatechnoenergy.com/sitemap.xml
