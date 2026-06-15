@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Phone, Mail, MapPin, Clock, Download } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock, Download, Award } from 'lucide-react'
 import CatalogModal from './CatalogModal'
 
 export default function Footer() {
@@ -75,6 +75,16 @@ export default function Footer() {
                   <Download size={14} /> Download Catalog
                 </button>
               </li>
+              {[['View Certificate', '/Certificate.pdf'], ['ISO Certificate', '/AnotherCertified.pdf']].map(([label, href]) => (
+                <li key={label}>
+                  <a href={href} target="_blank" rel="noreferrer"
+                    style={{ color: '#94a3b8', fontSize: '0.9rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem', transition: 'color 0.2s' }}
+                    onMouseEnter={e => e.currentTarget.style.color = 'var(--c-accent)'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#94a3b8'}>
+                    <Award size={14} /> {label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -94,11 +104,11 @@ export default function Footer() {
                   Ahmedabad - 380015, Gujarat
                 </span>
               </div>
-              <a href="mailto:info@vishwakarmatechnoenergy.com" style={{ display: 'flex', gap: '0.65rem', alignItems: 'center', color: '#94a3b8', fontSize: '0.88rem', transition: 'color 0.2s' }}
+              <a href="mailto:vishwakarmatecheng.office@gmail.com" style={{ display: 'flex', gap: '0.65rem', alignItems: 'center', color: '#94a3b8', fontSize: '0.88rem', transition: 'color 0.2s' }}
                 onMouseEnter={e => e.currentTarget.style.color = 'var(--c-accent)'}
                 onMouseLeave={e => e.currentTarget.style.color = '#94a3b8'}>
                 <Mail size={15} style={{ color: 'var(--c-accent)', flexShrink: 0 }} />
-                info@vishwakarmatechnoenergy.com
+                vishwakarmatecheng.office@gmail.com
               </a>
               <a href="tel:+917490018322" style={{ display: 'flex', gap: '0.65rem', alignItems: 'center', color: '#94a3b8', fontSize: '0.88rem', transition: 'color 0.2s' }}
                 onMouseEnter={e => e.currentTarget.style.color = 'var(--c-accent)'}
@@ -125,11 +135,9 @@ export default function Footer() {
             Registered & Certified:
           </div>
           {[
-            { label: 'GSTIN', value: '24AAVFJ6564H1ZT' },
-            { label: 'IEC',   value: 'AAVFJ6564H' },
-            { label: 'PAN',   value: 'AAVFJ6564H' },
-            { label: 'Firm No.', value: 'GUJAH204715' },
-            { label: 'ISO',   value: '9001:2015' },
+            { label: 'GSTIN', value: '24AALCV7395P1Z9' },
+            { label: 'PAN',   value: 'AALCV7395P' },
+           
           ].map(({ label, value }) => (
             <div key={label} style={{ display: 'inline-flex', alignItems: 'baseline', gap: '0.4rem' }}>
               <span style={{ color: 'var(--c-accent)', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>

@@ -9,7 +9,7 @@ const initialForm = { name: '', email: '', phone: '', company: '', product: '', 
 export default function Contact() {
   useSEO({
     title: 'Contact Vishwakarma TechnoEnergy — Ahmedabad, Gujarat | Industrial Engine Enquiries',
-    description: 'Get in touch with Vishwakarma TechnoEnergy for industrial engine enquiries, quotes, and support. 1103, Krupal Pathshala - 1 opp.HP Petrol Pump Nr. Shivranjani Cross Road Ahmedabad - 380015 · info@vishwakarmatechnoenergy.com · +91 83206 84142.',
+    description: 'Get in touch with Vishwakarma TechnoEnergy for industrial engine enquiries, quotes, and support. 1103, Krupal Pathshala - 1 opp.HP Petrol Pump Nr. Shivranjani Cross Road Ahmedabad - 380015 · vishwakarmatecheng.office@gmail.com · +91 83206 84142.',
     path: '/contact',
   })
   const [form, setForm] = useState(initialForm)
@@ -110,7 +110,7 @@ export default function Contact() {
           }}>
             {[
               { icon: MapPin, title: 'Visit Us',      primary: 'Nr. Shivranjani Cross Road',   secondary: '1103, Krupal Pathshala - 1 opp.HP Petrol Pump',           color: '#1a2456' },
-              { icon: Mail,   title: 'Email Us',      primary: 'info@vishwakarmatechnoenergy.com', secondary: 'We reply within 24 hours',                 color: '#f58220' },
+              { icon: Mail,   title: 'Email Us',      primary: 'vishwakarmatecheng.office@gmail.com', secondary: 'We reply within 24 hours',                 color: '#f58220' },
               { icon: Phone,  title: 'Call Us',       primary: '+91 83206 84142',            secondary: 'Mon–Sat · Sales & Support',               color: '#1a2456' },
               { icon: Clock,  title: 'Working Hours', primary: 'Mon–Sat: 11:00 AM – 6:30 PM', secondary: 'Sunday: Closed',                           color: '#f58220' },
             ].map(({ icon: Icon, title, primary, secondary, color }, i) => (
@@ -411,7 +411,7 @@ export default function Contact() {
 
                 {/* Office cards */}
                 {[
-                  { city: 'Email',   addr: 'Drop us a message — we respond within 24 hours.',                       phone: 'info@vishwakarmatechnoenergy.com' },
+                  { city: 'Email',   addr: 'Drop us a message — we respond within 24 hours.',                       phone: 'vishwakarmatecheng.office@gmail.com' },
                   { city: 'Address', addr: '1103, Krupal Pathshala - 1 opp.HP Petrol Pump  Nr. Shivranjani Cross Road,',                  phone: 'Ahmedabad – 382445, Gujarat, India' },
                 ].map(({ city, addr, phone }) => (
                   <motion.div key={city} whileHover={{ x: 6 }} style={{
@@ -454,7 +454,7 @@ export default function Contact() {
                 <p style={{ color: 'var(--c-text3)', fontSize: '0.95rem', lineHeight: 1.75, marginBottom: '2rem', maxWidth: 380 }}>
                   Everything you need to know about our products, services, and support. Can't find what you're looking for?
                 </p>
-                <a href="mailto:info@vishwakarmatechnoenergy.com" style={{
+                <a href="mailto:vishwakarmatecheng.office@gmail.com" style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
                   padding: '0.8rem 1.6rem', background: 'var(--g-primary)',
                   borderRadius: 10, fontWeight: 700, fontSize: '0.88rem', color: '#fff',

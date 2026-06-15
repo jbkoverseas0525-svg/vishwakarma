@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion'
 import {
   Settings, Zap, Shield, Wrench, ArrowRight, Award,
-  CheckCircle, Factory, Cpu, Gauge, Layers,
-  Users, LifeBuoy, Download,
+  CheckCircle, Factory, Cpu, Gauge,
+  Users, LifeBuoy, Download, X, ChevronLeft, ChevronRight,
 } from 'lucide-react'
 import FadeIn from '../components/FadeIn'
 import CatalogModal from '../components/CatalogModal'
@@ -29,221 +29,401 @@ function Counter({ end, suffix = '', duration = 2 }) {
   return <span ref={ref}>{count}{suffix}</span>
 }
 
+/* ─── Reusable auto-rotating slideshow ─── */
+function AutoSlideshow({ images, interval = 3500, alt = '', imgStyle }) {
+  const [idx, setIdx] = useState(0)
+  useEffect(() => {
+    if (images.length <= 1) return
+    const t = setInterval(() => setIdx(p => (p + 1) % images.length), interval)
+    return () => clearInterval(t)
+  }, [images.length, interval])
+  return (
+    <>
+      <motion.img key={idx} src={images[idx]} alt={alt}
+        initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+        style={imgStyle} />
+      {images.length > 1 && (
+        <div style={{
+          position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)',
+          display: 'flex', gap: 7, zIndex: 2,
+        }}>
+          {images.map((_, i) => (
+            <button key={i} type="button" onClick={() => setIdx(i)} aria-label={`Show image ${i + 1}`}
+              style={{
+                width: i === idx ? 22 : 9, height: 9, borderRadius: 5, padding: 0, cursor: 'pointer',
+                border: 'none', background: i === idx ? 'var(--c-primary)' : 'rgba(30,90,168,0.3)',
+                transition: 'all 0.3s',
+              }} />
+          ))}
+        </div>
+      )}
+    </>
+  )
+}
+
 /* ─── Products (using uploaded images) ─── */
 const products = [
   {
-    title: 'Heavy-Duty Diesel Engine',
+    title: 'Air-Cooled Diesel Engines',
     category: 'Power Solutions',
-    img: '/Image1.png',
+    images: ['/Image1.png', '/Image2.png', '/Image3.png', '/Image4.png', '/Image5.png'],
     Icon: Factory,
     stat: '500+', statLabel: 'Units deployed',
-    desc: 'Rugged air-cooled diesel engines delivering consistent performance for agricultural, construction, and general-purpose industrial applications.',
-    points: ['High torque, low-fuel consumption', 'Compact yet robust construction', 'Simple service & maintenance'],
+    desc: 'Rugged, low-maintenance air-cooled diesel engines built to deliver dependable power across generators, agriculture, construction, and utility applications.',
+    points: ['Generators & standby power', 'Agriculture & irrigation', 'Construction & mining'],
+    applications: [
+      { name: 'Generators', text: 'Portable and standby generators frequently use air-cooled diesel engines. They offer dependable backup power for household, commercial, and industrial applications, and are a popular choice due to their small size, ease of upkeep, and longevity.' },
+      { name: 'Agriculture', text: 'Agricultural machinery such as pumps, irrigation systems, tractors, and harvesters heavily rely upon air-cooled diesel engines. Their rugged design allows them to resist harsh field conditions while providing effective power for agricultural applications.' },
+      { name: 'Construction & Mining', text: 'Construction equipment such as compactors, loaders, excavators, and portable compressors utilize air-cooled diesel engines. Their capacity to function in harsh settings makes them suitable for heavy-duty applications.' },
+      { name: 'Construction', text: 'These engines power generators, compactors, and other equipment used on construction sites.' },
+      { name: 'Power Generation', text: 'Portable generators, both large and small, use air-cooled diesel engines to provide backup power in homes, for outdoor events, and in remote locations where grid electricity is unreliable.' },
+      { name: 'Pumping Systems', text: 'They are used in irrigation systems, water pumps, and firefighting pumps.' },
+      { name: 'Utility Equipment', text: 'They power various utility equipment like jetting machines, cleaning machines, and boom sprayers.' },
+    ],
+    advantages: [
+      { name: 'Simplicity', text: 'Air-cooled engines have a simpler cooling system compared to water-cooled engines, making them easier to maintain and repair.' },
+      { name: 'Portability', text: 'Their compact size and lack of a complex cooling system make them ideal for portable applications.' },
+      { name: 'Reliability', text: 'They are known for their durability and reliability, especially in harsh environments.' },
+      { name: 'Cost-effectiveness', text: 'They are often more affordable than water-cooled engines, making them a good choice for budget-conscious users.' },
+    ],
   },
   {
-    title: 'Industrial Petrol Engine',
-    category: 'Compact Power',
-    img: '/Image2.png',
-    Icon: Zap,
-    stat: '6-15 HP', statLabel: 'Output range',
-    desc: 'Portable single-cylinder petrol engines engineered for water pumps, threshers, generators, and other small industrial equipment.',
-    points: ['Easy recoil start', 'Low vibration design', 'Wide application range'],
-  },
-  {
-    title: 'Single-Cylinder Diesel Unit',
-    category: 'Precision Machinery',
-    img: '/Image3.png',
-    Icon: Cpu,
-    stat: 'ISO 9001', statLabel: 'Quality certified',
-    desc: 'Precision-built single-cylinder diesel units with superior flywheel inertia for stable power transmission in demanding environments.',
-    points: ['High flywheel inertia', 'Fuel-efficient combustion', 'Long service intervals'],
-  },
-  {
-    title: 'Medium-Duty Industrial Engine',
-    category: 'Industrial Systems',
-    img: '/Image4.png',
+    title: 'Marine Engine',
+    category: 'Marine Power',
+    images: ['/Marine1.png', '/Marine2.png', '/Marine3.png', '/MArineENgine4.png'],
     Icon: Gauge,
-    stat: '99%', statLabel: 'Uptime guarantee',
-    desc: 'Durable medium-duty engines designed for industrial water pumps, concrete mixers, and continuous-duty applications.',
-    points: ['Continuous duty rated', 'Corrosion-resistant finish', 'Proven reliability worldwide'],
-  },
-  {
-    title: 'Twin-Cylinder Power Unit',
-    category: 'High Performance',
-    img: '/Image5.png',
-    Icon: Layers,
-    stat: '2,500+', statLabel: 'Running hours',
-    desc: 'Twin-cylinder power unit engineered for higher-output industrial applications requiring sustained performance and reliability.',
-    points: ['Balanced twin-cylinder design', 'Low-maintenance operation', 'Industrial-grade components'],
+    stat: '24/7', statLabel: 'Continuous duty',
+    desc: 'Versatile air-cooled diesel power for marine and remote-area duties — pumps, compressors, generation, and utility equipment that must run reliably in isolated environments.',
+    points: ['Pumps & compressors', 'Power generation', 'Pumping & utility systems'],
+    applications: [
+      { name: 'Pumps & Compressors', text: 'Pumps and compressors for a variety of purposes, including water pumping, oil and gas exploration, and pneumatic systems, are often powered by air-cooled diesel engines. Their adaptability and ability to work efficiently in isolated areas make them ideal for these duties.' },
+      { name: 'Construction', text: 'These engines power generators, compactors, and other equipment used on construction sites.' },
+      { name: 'Power Generation', text: 'Portable generators, both large and small, use air-cooled diesel engines to provide backup power in homes, for outdoor events, and in remote locations where grid electricity is unreliable.' },
+      { name: 'Pumping Systems', text: 'They are used in irrigation systems, water pumps, and firefighting pumps.' },
+      { name: 'Utility Equipment', text: 'They power various utility equipment like jetting machines, cleaning machines, and boom sprayers.' },
+    ],
+    advantages: [],
   },
 ]
 
-/* ─── Sticky Scroll Section ─── */
-function ProductScrollSection() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const itemRefs = useRef([])
+/* ─── Slideshow arrow button style ─── */
+const arrowBtnStyle = {
+  position: 'absolute', top: '42%', transform: 'translateY(-50%)', zIndex: 3,
+  width: 42, height: 42, borderRadius: '50%', cursor: 'pointer',
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
+  border: '1px solid var(--c-border)', color: 'var(--c-primary)',
+  boxShadow: '0 6px 18px rgba(15,23,42,0.15)',
+  transition: 'background 0.2s, transform 0.2s',
+}
 
+/* ─── Single product row: image gallery + details, side by side ─── */
+function ProductRow({ product, index, onReadMore }) {
+  const [imgIndex, setImgIndex] = useState(0)
+  const len = product.images.length
+
+  // Auto-rotate this product's own gallery
   useEffect(() => {
-    const observers = products.map((_, i) => {
-      const el = itemRefs.current[i]
-      if (!el) return null
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveIndex(i) },
-        { threshold: 0.55, rootMargin: '-10% 0px -10% 0px' }
-      )
-      obs.observe(el)
-      return obs
-    })
-    return () => observers.forEach(o => o?.disconnect())
-  }, [])
-
-  const active = products[activeIndex]
+    if (len <= 1) return
+    const timer = setInterval(() => setImgIndex(p => (p + 1) % len), 3500)
+    return () => clearInterval(timer)
+  }, [len])
 
   return (
-    <div className="product-scroll-wrapper" style={{ display: 'flex' }}>
+    <div className="product-row" style={{
+      display: 'grid', gridTemplateColumns: '1.15fr 0.85fr', gap: '3.5rem', alignItems: 'center',
+      maxWidth: 1280, margin: '0 auto', padding: '3.5rem 1.5rem',
+      borderTop: index === 0 ? 'none' : '1px solid var(--c-border)',
+    }}>
 
-      {/* Left: Sticky Image Panel */}
-      <div className="product-scroll-left" style={{
-        width: '50%', position: 'sticky', top: 0, height: '100vh', overflow: 'hidden',
-        background: 'var(--c-bg-blue)',
-      }}>
-        <AnimatePresence mode="wait">
-          <motion.div key={activeIndex}
-            initial={{ opacity: 0, scale: 1.04 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.97 }}
-            transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem' }}>
-            <img src={active.img} alt={active.title}
-              style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 20px 40px rgba(15,23,42,0.15))' }} />
-          </motion.div>
-        </AnimatePresence>
+      {/* ── Image / slideshow ── */}
+      <div className="product-row-media">
+        <div style={{
+          position: 'relative', borderRadius: 20, overflow: 'hidden',
+          background: '#ffffff', border: '1px solid var(--c-border)',
+          boxShadow: '0 20px 50px rgba(15,23,42,0.10)',
+          aspectRatio: '4 / 3.1',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.25rem',
+        }}>
+          <motion.img key={imgIndex}
+            src={product.images[imgIndex]} alt={`${product.title} — view ${imgIndex + 1}`}
+            initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }} />
 
-        {/* Category Badge */}
-        <AnimatePresence mode="wait">
-          <motion.div key={`badge-${activeIndex}`}
-            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35, delay: 0.1 }}
-            style={{
-              position: 'absolute', top: 32, left: 32, zIndex: 2,
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              padding: '0.35rem 1rem', background: '#fff',
-              border: '1px solid var(--c-primary-lt)', borderRadius: 100,
-              boxShadow: '0 4px 14px rgba(30,90,168,0.15)',
-            }}>
+          {/* Category badge */}
+          <div style={{
+            position: 'absolute', top: 16, left: 16,
+            display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+            padding: '0.35rem 1rem', background: '#fff',
+            border: '1px solid var(--c-primary-lt)', borderRadius: 100,
+            boxShadow: '0 4px 14px rgba(30,90,168,0.15)',
+          }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--c-accent)', animation: 'pulse 2s infinite' }} />
             <span style={{ color: 'var(--c-primary)', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-              {active.category}
+              {product.category}
             </span>
-          </motion.div>
-        </AnimatePresence>
+          </div>
 
-        {/* Bottom stat */}
-        <AnimatePresence mode="wait">
-          <motion.div key={`stat-${activeIndex}`}
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, delay: 0.15 }}
-            style={{
-              position: 'absolute', bottom: 74, left: 32, zIndex: 2,
-              padding: '1rem 1.25rem', background: '#fff',
-              borderRadius: 12, boxShadow: '0 10px 30px rgba(15,23,42,0.12)',
-              borderLeft: '4px solid var(--c-accent)',
+          {/* Image counter */}
+          {len > 1 && (
+            <div style={{
+              position: 'absolute', top: 16, right: 16,
+              fontFamily: 'Rajdhani, sans-serif', fontWeight: 700, fontSize: '0.8rem',
+              color: 'var(--c-text3)', letterSpacing: '0.1em',
             }}>
-            <div style={{ fontFamily: 'Rajdhani, sans-serif', fontSize: '1.8rem', fontWeight: 800, color: 'var(--c-primary)', lineHeight: 1 }}>
-              {active.stat}
+              {String(imgIndex + 1).padStart(2, '0')}&nbsp;/&nbsp;{String(len).padStart(2, '0')}
             </div>
-            <div style={{ color: 'var(--c-text3)', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: '0.2rem' }}>
-              {active.statLabel}
-            </div>
-          </motion.div>
-        </AnimatePresence>
+          )}
 
-        {/* Progress */}
-        <div style={{ position: 'absolute', bottom: 32, left: 32, display: 'flex', gap: '6px', zIndex: 2 }}>
-          {products.map((_, i) => (
-            <motion.div key={i}
-              animate={{ width: i === activeIndex ? 28 : 8, background: i === activeIndex ? 'var(--c-primary)' : 'var(--c-border2)' }}
-              transition={{ duration: 0.3 }}
-              style={{ height: 6, borderRadius: 3 }} />
+          {/* Prev / Next arrows */}
+          {len > 1 && (
+            <>
+              <button type="button" aria-label="Previous image"
+                onClick={() => setImgIndex(p => (p - 1 + len) % len)}
+                style={{ ...arrowBtnStyle, left: 16 }}>
+                <ChevronLeft size={20} />
+              </button>
+              <button type="button" aria-label="Next image"
+                onClick={() => setImgIndex(p => (p + 1) % len)}
+                style={{ ...arrowBtnStyle, right: 16 }}>
+                <ChevronRight size={20} />
+              </button>
+            </>
+          )}
+
+          {/* Stat chip */}
+          <div style={{
+            position: 'absolute', bottom: 16, left: 16,
+            padding: '0.7rem 1rem', background: '#fff',
+            borderRadius: 12, boxShadow: '0 10px 30px rgba(15,23,42,0.12)',
+            borderLeft: '4px solid var(--c-accent)',
+          }}>
+            <div style={{ fontFamily: 'Rajdhani, sans-serif', fontSize: '1.5rem', fontWeight: 800, color: 'var(--c-primary)', lineHeight: 1 }}>
+              {product.stat}
+            </div>
+            <div style={{ color: 'var(--c-text3)', fontSize: '0.68rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: '0.2rem' }}>
+              {product.statLabel}
+            </div>
+          </div>
+        </div>
+
+        {/* Thumbnail strip */}
+        {len > 1 && (
+          <div style={{ display: 'flex', gap: '0.6rem', marginTop: '1rem', flexWrap: 'wrap' }}>
+            {product.images.map((src, gi) => (
+              <button key={src} type="button" onClick={() => setImgIndex(gi)}
+                aria-label={`Show image ${gi + 1}`}
+                style={{
+                  width: 60, height: 60, borderRadius: 10, cursor: 'pointer', padding: 4,
+                  background: '#fff', overflow: 'hidden',
+                  border: `2px solid ${gi === imgIndex ? 'var(--c-primary)' : 'var(--c-border)'}`,
+                  opacity: gi === imgIndex ? 1 : 0.6,
+                  transition: 'all 0.25s',
+                }}>
+                <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── Details ── */}
+      <div className="product-row-info">
+        <div style={{
+          width: 56, height: 56, borderRadius: 14,
+          background: 'var(--c-bg-blue)', border: '1px solid var(--c-primary-lt)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem',
+        }}>
+          <product.Icon size={24} color="var(--c-primary)" />
+        </div>
+
+        <div style={{ color: 'var(--c-text3)', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
+          0{index + 1} &mdash; {product.category}
+        </div>
+
+        <h2 style={{
+          fontFamily: 'Rajdhani, sans-serif', fontWeight: 800,
+          fontSize: 'clamp(1.7rem, 3vw, 2.6rem)', lineHeight: 1.1,
+          marginBottom: '1rem', color: 'var(--c-text)',
+        }}>
+          {product.title}
+        </h2>
+
+        <p style={{ color: 'var(--c-text2)', fontSize: '0.95rem', lineHeight: 1.8, marginBottom: '1.5rem', maxWidth: 460 }}>
+          {product.desc}
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1.75rem' }}>
+          {product.points.map(pt => (
+            <div key={pt} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <CheckCircle size={15} style={{ color: 'var(--c-accent)', flexShrink: 0 }} />
+              <span style={{ color: 'var(--c-text2)', fontSize: '0.88rem' }}>{pt}</span>
+            </div>
           ))}
         </div>
 
-        <div style={{
-          position: 'absolute', top: 32, right: 32, zIndex: 2,
-          fontFamily: 'Rajdhani, sans-serif', fontWeight: 700,
-          fontSize: '0.85rem', color: 'var(--c-text3)', letterSpacing: '0.1em',
-        }}>
-          {String(activeIndex + 1).padStart(2, '0')}&nbsp;/&nbsp;{String(products.length).padStart(2, '0')}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <button type="button" onClick={() => onReadMore(index)} style={{
+            display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
+            padding: '0.7rem 1.5rem', background: 'var(--g-primary)',
+            border: '1px solid transparent',
+            borderRadius: 8, fontWeight: 700, fontSize: '0.85rem', color: '#fff',
+            boxShadow: '0 6px 20px rgba(30,90,168,0.3)',
+            cursor: 'pointer', transition: 'all 0.35s', width: 'fit-content',
+          }}>
+            Read More <ArrowRight size={15} />
+          </button>
+          <button type="button" onClick={() => window.dispatchEvent(new Event('open-quote-modal'))} style={{
+            display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
+            padding: '0.7rem 1.5rem', background: 'transparent',
+            border: '1px solid var(--c-border2)',
+            borderRadius: 8, fontWeight: 700, fontSize: '0.85rem', color: 'var(--c-text2)',
+            cursor: 'pointer', transition: 'all 0.35s', width: 'fit-content',
+          }}>
+            Request Quote
+          </button>
         </div>
       </div>
+    </div>
+  )
+}
 
-      {/* Right: Scroll cards */}
-      <div className="product-scroll-right" style={{ width: '50%', background: 'var(--c-bg)' }}>
-        {products.map((card, i) => (
-          <div key={card.title}
-            ref={el => { itemRefs.current[i] = el }}
-            className="product-scroll-item"
+/* ─── Products Section ─── */
+function ProductScrollSection() {
+  const [detailIndex, setDetailIndex] = useState(null)
+
+  return (
+    <div style={{ background: 'var(--c-bg)' }}>
+      <style>{`
+        @media (max-width: 860px) {
+          .product-row { grid-template-columns: 1fr !important; gap: 2rem !important; }
+        }
+      `}</style>
+
+      {products.map((p, i) => (
+        <ProductRow key={p.title} product={p} index={i} onReadMore={setDetailIndex} />
+      ))}
+
+      {/* Product detail modal */}
+      <AnimatePresence>
+        {detailIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => setDetailIndex(null)}
             style={{
-              minHeight: '100vh', padding: '5rem 3.5rem',
-              display: 'flex', flexDirection: 'column', justifyContent: 'center',
-              borderBottom: '1px solid var(--c-border)',
-              transition: 'opacity 0.35s',
-              opacity: i === activeIndex ? 1 : 0.38,
+              position: 'fixed', inset: 0, zIndex: 1000,
+              background: 'rgba(15,23,42,0.55)', backdropFilter: 'blur(4px)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              padding: '1.5rem',
             }}>
-            <motion.div animate={{ x: i === activeIndex ? 0 : 12 }} transition={{ duration: 0.4 }}>
-
-              <div style={{
-                width: 56, height: 56, borderRadius: 14,
-                background: i === activeIndex ? 'var(--c-bg-blue)' : 'var(--c-bg2)',
-                border: `1px solid ${i === activeIndex ? 'var(--c-primary-lt)' : 'var(--c-border)'}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem',
-                transition: 'all 0.35s',
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.97 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              onClick={e => e.stopPropagation()}
+              style={{
+                background: 'var(--c-bg)', borderRadius: 20,
+                width: '100%', maxWidth: 720, maxHeight: '88vh', overflowY: 'auto',
+                boxShadow: '0 40px 90px rgba(15,23,42,0.4)',
+                border: '1px solid var(--c-border)', position: 'relative',
               }}>
-                <card.Icon size={24} color={i === activeIndex ? 'var(--c-primary)' : 'var(--c-text3)'} />
-              </div>
+              {(() => {
+                const p = products[detailIndex]
+                return (
+                  <div>
+                    {/* Header */}
+                    <div style={{
+                      position: 'sticky', top: 0, zIndex: 2,
+                      display: 'flex', alignItems: 'center', gap: '1rem',
+                      padding: '1.5rem 1.75rem',
+                      background: 'var(--c-bg)',
+                      borderBottom: '1px solid var(--c-border)',
+                    }}>
+                      <div style={{
+                        width: 80, height: 80, borderRadius: 14, flexShrink: 0,
+                        background: '#ffffff', border: '1px solid var(--c-primary-lt)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+                      }}>
+                        <img src={p.images[0]} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '0.4rem' }} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ color: 'var(--c-accent-dk)', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
+                          {p.category}
+                        </div>
+                        <h2 style={{ fontFamily: 'Rajdhani, sans-serif', fontWeight: 800, fontSize: 'clamp(1.4rem, 3vw, 2rem)', lineHeight: 1.1, color: 'var(--c-text)' }}>
+                          {p.title}
+                        </h2>
+                      </div>
+                      <button type="button" onClick={() => setDetailIndex(null)} aria-label="Close" style={{
+                        width: 38, height: 38, borderRadius: 10, flexShrink: 0,
+                        border: '1px solid var(--c-border)', background: 'var(--c-bg2)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+                        color: 'var(--c-text2)',
+                      }}>
+                        <X size={18} />
+                      </button>
+                    </div>
 
-              <div style={{ color: 'var(--c-text3)', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
-                0{i + 1} &mdash; {card.category}
-              </div>
+                    {/* Body */}
+                    <div style={{ padding: '1.75rem' }}>
+                      <p style={{ color: 'var(--c-text2)', fontSize: '0.95rem', lineHeight: 1.8, marginBottom: '2rem' }}>
+                        {p.desc}
+                      </p>
 
-              <h2 style={{
-                fontFamily: 'Rajdhani, sans-serif', fontWeight: 800,
-                fontSize: 'clamp(1.7rem, 3vw, 2.6rem)', lineHeight: 1.1,
-                marginBottom: '1rem', color: 'var(--c-text)',
-              }}>
-                {card.title}
-              </h2>
+                      <h3 style={{ fontFamily: 'Rajdhani, sans-serif', fontWeight: 800, fontSize: '1.15rem', color: 'var(--c-primary)', marginBottom: '1rem', letterSpacing: '0.02em' }}>
+                        Applications
+                      </h3>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: p.advantages.length ? '2rem' : 0 }}>
+                        {p.applications.map(({ name, text }) => (
+                          <div key={name} style={{ display: 'flex', gap: '0.75rem' }}>
+                            <CheckCircle size={17} style={{ color: 'var(--c-accent)', flexShrink: 0, marginTop: '0.2rem' }} />
+                            <div>
+                              <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--c-text)', marginBottom: '0.2rem' }}>{name}</div>
+                              <p style={{ color: 'var(--c-text3)', fontSize: '0.88rem', lineHeight: 1.7 }}>{text}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
 
-              <p style={{ color: 'var(--c-text2)', fontSize: '0.95rem', lineHeight: 1.8, marginBottom: '1.5rem', maxWidth: 420 }}>
-                {card.desc}
-              </p>
+                      {p.advantages.length > 0 && (
+                        <>
+                          <h3 style={{ fontFamily: 'Rajdhani, sans-serif', fontWeight: 800, fontSize: '1.15rem', color: 'var(--c-primary)', marginBottom: '1rem', letterSpacing: '0.02em' }}>
+                            Key Advantages
+                          </h3>
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+                            {p.advantages.map(({ name, text }) => (
+                              <div key={name} style={{
+                                padding: '1rem 1.15rem', borderRadius: 12,
+                                background: 'var(--c-bg2)', border: '1px solid var(--c-border)',
+                              }}>
+                                <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--c-text)', marginBottom: '0.3rem' }}>{name}</div>
+                                <p style={{ color: 'var(--c-text3)', fontSize: '0.86rem', lineHeight: 1.65 }}>{text}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )}
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1.75rem' }}>
-                {card.points.map(pt => (
-                  <div key={pt} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                    <CheckCircle size={15} style={{ color: 'var(--c-accent)', flexShrink: 0 }} />
-                    <span style={{ color: 'var(--c-text2)', fontSize: '0.88rem' }}>{pt}</span>
+                      <button type="button" onClick={() => { setDetailIndex(null); window.dispatchEvent(new Event('open-quote-modal')) }} style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '2rem',
+                        padding: '0.85rem 1.8rem', background: 'var(--g-primary)',
+                        border: 'none', cursor: 'pointer',
+                        borderRadius: 10, fontWeight: 700, fontSize: '0.9rem', color: '#fff',
+                        boxShadow: '0 8px 24px rgba(30,90,168,0.3)',
+                      }}>
+                        Request a Quote <ArrowRight size={16} />
+                      </button>
+                    </div>
                   </div>
-                ))}
-              </div>
-
-              <button type="button" onClick={() => window.dispatchEvent(new Event('open-quote-modal'))} style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
-                padding: '0.7rem 1.5rem',
-                background: i === activeIndex ? 'var(--g-primary)' : 'transparent',
-                border: `1px solid ${i === activeIndex ? 'transparent' : 'var(--c-primary-lt)'}`,
-                borderRadius: 8, fontWeight: 700, fontSize: '0.85rem',
-                color: i === activeIndex ? '#fff' : 'var(--c-primary)',
-                boxShadow: i === activeIndex ? '0 6px 20px rgba(30,90,168,0.3)' : 'none',
-                cursor: 'pointer',
-                transition: 'all 0.35s', width: 'fit-content',
-              }}>
-                Request Quote <ArrowRight size={15} />
-              </button>
+                )
+              })()}
             </motion.div>
-          </div>
-        ))}
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
@@ -708,19 +888,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ════ STICKY SCROLL PRODUCTS ════ */}
-      <section style={{ background: 'var(--c-bg2)' }}>
+      {/* ════ PRODUCTS ════ */}
+      <section style={{ background: 'var(--c-bg2)', paddingBottom: '4rem' }}>
         <div style={{ padding: '4rem 0 1rem', textAlign: 'center' }}>
           <FadeIn>
             <span style={{ color: 'var(--c-accent-dk)', fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' }}>Our Products</span>
             <h2 style={{ fontFamily: 'Rajdhani, sans-serif', fontWeight: 800, fontSize: 'clamp(1.9rem, 4.5vw, 3rem)', margin: '0.5rem 0 0.5rem' }}>
               Engineered for Every Challenge
             </h2>
-            <p style={{ color: 'var(--c-text3)', fontSize: '0.94rem', maxWidth: 440, margin: '0 auto 0.4rem', lineHeight: 1.7 }}>
-              Scroll down to explore our complete product line.
+            <p style={{ color: 'var(--c-text3)', fontSize: '0.94rem', maxWidth: 440, margin: '0 auto', lineHeight: 1.7 }}>
+              Explore our complete product line — each engineered for reliability in the field.
             </p>
-            <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.4 }}
-              style={{ color: 'var(--c-primary)', fontSize: '1.1rem', marginTop: '0.25rem' }}>↓</motion.div>
           </FadeIn>
         </div>
         <ProductScrollSection />
@@ -734,6 +912,7 @@ export default function Home() {
             <FadeIn direction="right">
               <div style={{ position: 'relative' }}>
                 <div style={{
+                  position: 'relative',
                   borderRadius: 20, overflow: 'hidden',
                   background: 'var(--c-bg-blue)',
                   padding: '2.5rem',
@@ -742,10 +921,13 @@ export default function Home() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   minHeight: 440,
                 }}>
-                  <img src="/Image3.png" alt="Vishwakarma Engine" style={{
-                    width: '100%', maxHeight: 380, objectFit: 'contain', display: 'block',
-                    filter: 'drop-shadow(0 18px 36px rgba(15,23,42,0.2))',
-                  }} />
+                  <AutoSlideshow
+                    images={['/Image3.png', '/Image1.png', '/Image4.png', '/Image2.png', '/Image5.png']}
+                    alt="Vishwakarma Engine"
+                    imgStyle={{
+                      width: '100%', maxHeight: 380, objectFit: 'contain', display: 'block',
+                      filter: 'drop-shadow(0 18px 36px rgba(15,23,42,0.2))',
+                    }} />
                 </div>
                 <motion.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
                   style={{
@@ -770,7 +952,7 @@ export default function Home() {
                   With 25+ years of engineering excellence, Vishwakarma TechnoEnergy is synonymous with reliability, performance, and innovation in every sector we serve.
                 </p>
                 {[
-                  'ISO 9001:2015 Certified Manufacturing',
+                 
                   'In-house R&D and engineering team',
                   'Pan-India service network — 50+ technicians',
                   'Customised solutions for every industry',
@@ -871,45 +1053,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ════ TESTIMONIALS ════ */}
-      <section className="section-pad" style={{ padding: '6rem 0', background: 'var(--c-bg)' }}>
-        <div className="container">
-          <FadeIn>
-            <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-              <span style={{ color: 'var(--c-accent-dk)', fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' }}>Client Stories</span>
-              <h2 style={{ fontFamily: 'Rajdhani, sans-serif', fontWeight: 800, fontSize: 'clamp(1.9rem, 4.5vw, 3rem)', margin: '0.5rem 0' }}>
-                Trusted by Industry Leaders
-              </h2>
-            </div>
-          </FadeIn>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
-            {testimonials.map((t, i) => (
-              <FadeIn key={t.name} delay={i * 0.1}>
-                <motion.div whileHover={{ y: -6 }}
-                  style={{
-                    padding: '2rem', borderRadius: 16, background: 'var(--c-card)',
-                    border: '1px solid var(--c-border)', boxShadow: '0 1px 3px var(--c-shadow)',
-                    transition: 'border-color 0.2s, box-shadow 0.2s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--c-primary-lt)'; e.currentTarget.style.boxShadow = '0 18px 36px var(--c-shadow-lg)' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.boxShadow = '0 1px 3px var(--c-shadow)' }}>
-                  <div style={{ display: 'flex', gap: '0.2rem', marginBottom: '1.1rem' }}>
-                    {[...Array(5)].map((_, j) => <span key={j} style={{ color: '#f59e0b', fontSize: '1rem' }}>★</span>)}
-                  </div>
-                  <p style={{ color: 'var(--c-text2)', fontSize: '0.94rem', lineHeight: 1.75, marginBottom: '1.4rem', fontStyle: 'italic' }}>"{t.text}"</p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                    <img src={t.img} alt={t.name} style={{ width: 46, height: 46, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--c-primary-lt)' }} />
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: '0.93rem' }}>{t.name}</div>
-                      <div style={{ color: 'var(--c-text3)', fontSize: '0.8rem' }}>{t.role}</div>
-                    </div>
-                  </div>
-                </motion.div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
+   
 
       {/* ════ CTA ════ */}
       <section className="section-pad" style={{ padding: '5rem 0', background: 'var(--c-bg2)' }}>
@@ -962,7 +1106,7 @@ export default function Home() {
                     onMouseLeave={e => e.currentTarget.style.transform = ''}>
                     Request Free Quote <ArrowRight size={16} />
                   </button>
-                  <a href="mailto:info@vishwakarmatechnoenergy.com" style={{
+                  <a href="mailto:vishwakarmatecheng.office@gmail.com" style={{
                     display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
                     padding: '0.9rem 1.9rem',
                     border: '1.5px solid rgba(255,255,255,0.55)',
@@ -973,7 +1117,7 @@ export default function Home() {
                   }}
                     onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.18)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}>
-                    info@vishwakarmatechnoenergy.com
+                   vishwakarmatecheng.office@gmail.com
                   </a>
                 </div>
               </div>
