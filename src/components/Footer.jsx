@@ -75,7 +75,7 @@ export default function Footer() {
                   <Download size={14} /> Download Catalog
                 </button>
               </li>
-              {[['View Certificate', '/Certificate.pdf'], ['ISO Certificate', '/AnotherCertified.pdf']].map(([label, href]) => (
+              {[['View Certificate', '/Certificate.pdf'], ['NSIC Certificate', '/AnotherCertified.pdf']].map(([label, href]) => (
                 <li key={label}>
                   <a href={href} target="_blank" rel="noreferrer"
                     style={{ color: '#94a3b8', fontSize: '0.9rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem', transition: 'color 0.2s' }}

@@ -67,7 +67,7 @@ const products = [
   {
     title: 'Air-Cooled Diesel Engines',
     category: 'Power Solutions',
-    images: ['/Image1.png', '/Image2.png', '/Image3.png', '/Image4.png', '/Image5.png'],
+    images: ['/Image1.png','/Image3.png', '/Image4.png', '/Image5.png'],
     Icon: Factory,
     stat: '500+', statLabel: 'Units deployed',
     desc: 'Rugged, low-maintenance air-cooled diesel engines built to deliver dependable power across generators, agriculture, construction, and utility applications.',
@@ -922,7 +922,7 @@ export default function Home() {
                   minHeight: 440,
                 }}>
                   <AutoSlideshow
-                    images={['/Image3.png', '/Image1.png', '/Image4.png', '/Image2.png', '/Image5.png']}
+                    images={['/Image3.png', '/Image1.png',  '/Image5.png']}
                     alt="Vishwakarma Engine"
                     imgStyle={{
                       width: '100%', maxHeight: 380, objectFit: 'contain', display: 'block',
