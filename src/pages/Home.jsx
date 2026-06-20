@@ -430,9 +430,9 @@ function ProductScrollSection() {
 
 /* ─── USP cards ─── */
 const usps = [
-  { icon: Settings, num: '500+', label: 'Projects Delivered', title: 'Precision Engineering', desc: 'Every component manufactured to ISO standards with micron-level tolerances and zero-defect philosophy.' },
+  { icon: Settings, num: '500+', label: 'Projects Delivered', title: 'Precision Engineering', desc: 'Every component manufactured to exacting standards with micron-level tolerances and zero-defect philosophy.' },
   { icon: Zap,      num: '25+',  label: 'Years Experience',   title: 'High Performance',    desc: 'Engineered for peak output under the harshest industrial conditions without compromise on quality.' },
-  { icon: Shield,   num: '98%',  label: 'Uptime Rate',        title: 'Certified Quality',   desc: 'ISO 9001:2015 certified manufacturing processes ensuring consistent, world-class quality every time.' },
+  { icon: Shield,   num: '98%',  label: 'Uptime Rate',        title: 'Certified Quality',   desc: 'Rigorous, audited manufacturing processes ensuring consistent, world-class quality every time.' },
   { icon: Wrench,   num: '50+',  label: 'Service Technicians',title: '24/7 Support',        desc: 'Round-the-clock technical support backed by a pan-India network of expert service teams.' },
 ]
 
@@ -440,7 +440,7 @@ const usps = [
 const processSteps = [
   { num: '01', icon: Users,    title: 'Consultation',           desc: 'We sit with you to understand operational requirements, site conditions, and output targets.', tag: 'Discovery' },
   { num: '02', icon: Cpu,      title: 'Engineering & Design',   desc: 'Customised designs and simulations ensure optimal performance before a component is built.',   tag: 'Design'    },
-  { num: '03', icon: Factory,  title: 'Precision Manufacturing',desc: 'Every part is machined in our ISO-certified facility with end-to-end quality inspection.',     tag: 'Build'     },
+  { num: '03', icon: Factory,  title: 'Precision Manufacturing',desc: 'Every part is machined in our quality-controlled facility with end-to-end quality inspection.',     tag: 'Build'     },
   { num: '04', icon: LifeBuoy, title: 'Installation & Support', desc: 'Our field team handles delivery, commissioning, training, and 24/7 ongoing support.',          tag: 'Deploy'    },
 ]
 
@@ -453,7 +453,7 @@ const testimonials = [
 export default function Home() {
   useSEO({
     title: 'Vishwakarma TechnoEnergy — Industrial Engines & Precision Machinery Manufacturer',
-    description: 'Manufacturer of air-cooled diesel engines, petrol engines and precision industrial machinery in Ahmedabad. ISO 9001:2015 certified. Trusted by 500+ clients across 50+ countries.',
+    description: 'Manufacturer of air-cooled diesel engines, petrol engines and precision industrial machinery in Ahmedabad. Trusted by 500+ clients across 50+ countries.',
     path: '/',
   })
   const heroRef = useRef(null)
@@ -622,7 +622,7 @@ export default function Home() {
                   <span style={{ color: 'var(--c-text3)', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                     Trusted by:
                   </span>
-                  {['ISO 9001', 'CE', 'BIS', 'MSME'].map((b, i) => (
+                  {['CE', 'BIS', 'MSME'].map((b, i) => (
                     <motion.div key={b}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -723,7 +723,7 @@ export default function Home() {
                     <div className="shine-sweep" />
                   </div>
 
-                  {/* Top-left ISO card */}
+                  {/* Top-left quality card */}
                   <motion.div
                     initial={{ opacity: 0, y: -20, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.9 }}
@@ -745,8 +745,8 @@ export default function Home() {
                       <Shield size={18} color="#d96a0a" />
                     </div>
                     <div>
-                      <div style={{ fontFamily: 'Rajdhani, sans-serif', fontWeight: 800, fontSize: '0.92rem', color: 'var(--c-text)', lineHeight: 1 }}>ISO 9001:2015</div>
-                      <div style={{ fontSize: '0.7rem', color: 'var(--c-text3)', marginTop: '0.15rem' }}>Certified</div>
+                      <div style={{ fontFamily: 'Rajdhani, sans-serif', fontWeight: 800, fontSize: '0.92rem', color: 'var(--c-text)', lineHeight: 1 }}>Quality Assured</div>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--c-text3)', marginTop: '0.15rem' }}>Trusted Standard</div>
                     </div>
                   </motion.div>
 

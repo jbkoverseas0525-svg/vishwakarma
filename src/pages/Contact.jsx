@@ -491,7 +491,7 @@ const faqs = [
   { q: 'Do you offer customised machinery solutions?', a: 'Yes, our in-house R&D team designs custom machinery tailored to your specific production requirements and industry standards.' },
   { q: 'What is the typical delivery timeline?', a: 'Standard products: 2–4 weeks. Custom solutions: 6–12 weeks depending on complexity and specifications.' },
   { q: 'Do you provide after-sales support and maintenance?', a: 'Absolutely. We offer 24/7 emergency support, scheduled maintenance plans, and a nationwide network of 50+ service technicians.' },
-  { q: 'What certifications do your products carry?', a: 'Our products carry ISO 9001:2015, CE, and BIS certifications. Select products are CPCB-compliant for emission standards.' },
+  { q: 'What certifications do your products carry?', a: 'Our products carry CE and BIS certifications. Select products are CPCB-compliant for emission standards.' },
 ]
 
 function FAQItem({ q, a, index, delay }) {

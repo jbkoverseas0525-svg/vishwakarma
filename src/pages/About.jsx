@@ -6,7 +6,7 @@ import useSEO from '../hooks/useSEO'
 
 const milestones = [
   { year: '1998', title: 'Founded', desc: 'Vishwakarma TechnoEnergy was established in Delhi with a team of 12 engineers and a vision to transform industrial manufacturing.' },
-  { year: '2003', title: 'ISO Certified', desc: 'Achieved ISO 9001 certification, setting new quality benchmarks for machinery manufacturing in North India.' },
+  { year: '2003', title: 'Quality Benchmark', desc: 'Established rigorous quality management systems, setting new benchmarks for machinery manufacturing in North India.' },
   { year: '2008', title: 'National Expansion', desc: 'Opened service centres in Mumbai, Chennai, and Kolkata, building a nationwide distribution and support network.' },
   { year: '2014', title: 'Export Milestone', desc: 'Began exporting to 15 countries across Southeast Asia and the Middle East, marking our international footprint.' },
   { year: '2019', title: 'R&D Center Launch', desc: 'Inaugurated a 25,000 sq ft R&D facility focused on energy-efficient and smart industrial machinery.' },
@@ -17,7 +17,7 @@ const team = [
   { name: 'Anil Kumar Bansal', role: 'Founder & CEO', img: 'https://randomuser.me/api/portraits/men/52.jpg', bio: '30+ years in industrial engineering. IIT Delhi alumni driving innovation at Vishwakarma TechnoEnergy.' },
   { name: 'Sunita Sharma', role: 'Chief Technical Officer', img: 'https://randomuser.me/api/portraits/women/57.jpg', bio: 'M.Tech in Mechanical Engineering with 20+ patents in hydraulic systems design.' },
   { name: 'Rajeev Malhotra', role: 'VP Operations', img: 'https://randomuser.me/api/portraits/men/36.jpg', bio: 'Ex-BHEL executive with deep expertise in large-scale industrial plant management.' },
-  { name: 'Kavita Singh', role: 'Head of Quality', img: 'https://randomuser.me/api/portraits/women/31.jpg', bio: 'ISO lead auditor ensuring Vishwakarma products consistently exceed global quality standards.' },
+  { name: 'Kavita Singh', role: 'Head of Quality', img: 'https://randomuser.me/api/portraits/women/31.jpg', bio: 'Quality lead auditor ensuring Vishwakarma products consistently exceed global quality standards.' },
 ]
 
 const values = [
