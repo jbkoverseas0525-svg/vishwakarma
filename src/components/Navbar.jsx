@@ -47,7 +47,7 @@ export default function Navbar() {
             src="/Logo.jpeg"
             alt="Vishwakarma TechnoEnergy"
             style={{
-              height: scrolled ? 40 : 48,
+              height: scrolled ? 56 : 80,
               width: 'auto',
               maxWidth: '60vw',
               objectFit: 'contain',

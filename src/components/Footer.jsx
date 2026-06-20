@@ -27,7 +27,7 @@ export default function Footer() {
               borderRadius: 10, display: 'inline-block', marginBottom: '1rem',
             }}>
               <img src="/Logo.jpeg" alt="Vishwakarma TechnoEnergy"
-                style={{ height: 50, width: 'auto', objectFit: 'contain', display: 'block' }} />
+                style={{ height: 68, width: 'auto', objectFit: 'contain', display: 'block' }} />
             </div>
             <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: 1.75, maxWidth: 280, marginTop: '0.5rem' }}>
               Delivering precision-engineered machinery solutions that power industries across India and beyond. <em>We build trust.</em>
@@ -118,7 +118,7 @@ export default function Footer() {
               </a>
               <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center' }}>
                 <Clock size={15} style={{ color: 'var(--c-accent)', flexShrink: 0 }} />
-                <span style={{ color: '#94a3b8', fontSize: '0.88rem' }}>Mon–Sat: 11:00 AM – 6:30 PM</span>
+                <span style={{ color: '#94a3b8', fontSize: '0.88rem' }}>Mon–Sat: 10:00 AM – 6:00 PM</span>
               </div>
             </div>
           </div>
